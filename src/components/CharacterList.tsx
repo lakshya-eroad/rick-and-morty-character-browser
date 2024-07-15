@@ -12,28 +12,29 @@ interface Character {
 const CharacterList: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [name, setName] = useState(searchParams.get("name") || "");
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("name") || "");
   const [page, setPage] = useState(
     parseInt(searchParams.get("page") || "1", 10)
   );
 
   const { loading, error, data } = useQuery(GET_CHARACTERS, {
-    variables: { name, page },
+    variables: { name: searchTerm, page },
   });
 
   useEffect(() => {
-    setSearchParams({ name, page: page.toString() });
-  }, [name, page, setSearchParams]);
+    setSearchParams({ name: searchTerm, page: page.toString() });
+  }, [searchTerm, page, setSearchParams]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSearchTerm(name);
     setPage(1); // Reset to first page on new search
-    setSearchParams({ name, page: "1" });
   };
 
   const handleClearSearch = () => {
     setName("");
+    setSearchTerm("");
     setPage(1); // Reset to first page on clearing search
-    setSearchParams({ name: "", page: "1" });
   };
 
   if (loading) return <p>Loading...</p>;
