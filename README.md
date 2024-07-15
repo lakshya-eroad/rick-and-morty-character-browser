@@ -1,4 +1,6 @@
-# RICK-AND-MORTY-CHARACTER-BROWSING
+# RICK-AND-MORTY-CHARACTER-BROWSING\
+
+https://github.com/user-attachments/assets/d5e43b07-86c8-43ba-bd12-46082c50db2e
 
 [View Demo](https://rick-and-morty-character-browser-8cv4m29lw.vercel.app/?name=&page=1)
 
