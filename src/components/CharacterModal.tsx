@@ -24,8 +24,8 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
   if (!character) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-      <div className="bg-gray-900 text-white rounded-lg p-6 w-11/12 md:w-2/3 lg:w-1/3">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 p-4">
+      <div className="bg-gray-900 text-white rounded-lg p-6 w-full max-w-md md:max-w-2xl lg:max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">{character.name}</h2>
           <button
