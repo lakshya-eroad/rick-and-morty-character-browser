@@ -1,15 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import { ApolloProvider } from "@apollo/client";
+
+import App from "./App";
+import client from "./client/client";
+import reportWebVitals from "./reportWebVitals";
+import "./index.css";
+
+const container = document.getElementById("app");
+
+const root = createRoot(container!);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
 );
 
