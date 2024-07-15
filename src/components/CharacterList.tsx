@@ -32,12 +32,17 @@ const CharacterList: React.FC = () => {
     setSearchTerm(name);
   };
 
+  const clearSearch = () => {
+    setName("");
+    setSearchTerm("");
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="container mx-auto p-4">
-      <form onSubmit={handleSearch} className="mb-4">
+      <form onSubmit={handleSearch} className="mb-4 flex space-x-2">
         <input
           type="text"
           placeholder="Search for a character"
@@ -45,6 +50,16 @@ const CharacterList: React.FC = () => {
           onChange={(e) => setName(e.target.value)}
           className="input input-bordered w-full"
         />
+        <button type="submit" className="btn btn-primary">
+          Search
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={clearSearch}
+        >
+          Clear
+        </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.characters.results.map((character: Character) => (
