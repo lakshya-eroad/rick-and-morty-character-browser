@@ -1,27 +1,28 @@
 import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { GET_CHARACTER } from "../graphql/queries";
 
-interface Episode {
+interface Character {
   id: string;
   name: string;
+  image: string;
+  species: string;
+  status: string;
+  episode: { id: string; name: string }[];
 }
 
-interface CharacterModalProps {
-  character: {
-    id: string;
-    name: string;
-    image: string;
-    species: string;
-    status: string;
-    episode: Episode[];
-  } | null;
-  onClose: () => void;
-}
+const CharacterModal: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { loading, error, data } = useQuery(GET_CHARACTER, {
+    variables: { id },
+  });
 
-const CharacterModal: React.FC<CharacterModalProps> = ({
-  character,
-  onClose,
-}) => {
-  if (!character) return null;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const character: Character = data.character;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 p-4">
@@ -30,7 +31,7 @@ const CharacterModal: React.FC<CharacterModalProps> = ({
           <h2 className="text-xl font-bold">{character.name}</h2>
           <button
             className="btn btn-sm btn-circle btn-outline"
-            onClick={onClose}
+            onClick={() => navigate(-1)}
           >
             ✕
           </button>

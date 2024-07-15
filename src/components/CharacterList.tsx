@@ -1,40 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CHARACTERS } from "../graphql/queries";
-import CharacterModal from "./CharacterModal";
 
 interface Character {
   id: string;
   name: string;
   image: string;
-  species: string;
-  status: string;
-  episode: { id: string; name: string }[];
 }
 
 const CharacterList: React.FC = () => {
-  const [page, setPage] = useState(1);
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
-    null
-  );
-  const { loading, error, data, refetch } = useQuery(GET_CHARACTERS, {
-    variables: { page, name: searchTerm },
+  const { loading, error, data } = useQuery(GET_CHARACTERS, {
+    variables: { name: searchTerm },
   });
-
-  useEffect(() => {
-    refetch();
-  }, [page, searchTerm, refetch]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSearchTerm(name);
-  };
-
-  const clearSearch = () => {
-    setName("");
-    setSearchTerm("");
   };
 
   if (loading) return <p>Loading...</p>;
@@ -56,17 +40,20 @@ const CharacterList: React.FC = () => {
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={clearSearch}
+          onClick={() => {
+            setName("");
+            setSearchTerm("");
+          }}
         >
           Clear
         </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.characters.results.map((character: Character) => (
-          <div
+          <Link
             key={character.id}
+            to={`/character/${character.id}`} // Navigate to character details route
             className="card bg-base-100 shadow-xl cursor-pointer"
-            onClick={() => setSelectedCharacter(character)}
           >
             <figure>
               <img
@@ -78,32 +65,9 @@ const CharacterList: React.FC = () => {
             <div className="card-body">
               <h2 className="card-title">{character.name}</h2>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-      <div className="flex justify-between mt-4">
-        <button
-          className="btn btn-primary"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => setPage(page + 1)}
-          disabled={!data.characters.info.next}
-        >
-          Next
-        </button>
-      </div>
-
-      {selectedCharacter && (
-        <CharacterModal
-          character={selectedCharacter}
-          onClose={() => setSelectedCharacter(null)}
-        />
-      )}
     </div>
   );
 };
