@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_CHARACTERS } from "../graphql/queries";
+import CharacterModal from "./CharacterModal";
 
 interface Character {
   id: string;
   name: string;
   image: string;
+  species: string;
+  status: string;
+  episode: { id: string; name: string }[];
 }
 
 const CharacterList: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
+    null
+  );
   const { loading, error, data } = useQuery(GET_CHARACTERS, {
     variables: { page },
   });
@@ -21,7 +28,11 @@ const CharacterList: React.FC = () => {
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {data.characters.results.map((character: Character) => (
-          <div key={character.id} className="card bg-base-100 shadow-xl">
+          <div
+            key={character.id}
+            className="card bg-base-100 shadow-xl cursor-pointer"
+            onClick={() => setSelectedCharacter(character)}
+          >
             <figure>
               <img
                 src={character.image}
@@ -51,6 +62,13 @@ const CharacterList: React.FC = () => {
           Next
         </button>
       </div>
+
+      {selectedCharacter && (
+        <CharacterModal
+          character={selectedCharacter}
+          onClose={() => setSelectedCharacter(null)}
+        />
+      )}
     </div>
   );
 };

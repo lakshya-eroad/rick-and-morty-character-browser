@@ -10,6 +10,12 @@ export const GET_CHARACTERS = gql`
         id
         name
         image
+        species
+        status
+        episode {
+          id
+          name
+        }
       }
     }
   }
