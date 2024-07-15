@@ -1,12 +1,17 @@
 import React from "react";
 
+interface Episode {
+  id: string;
+  name: string;
+}
+
 interface CharacterDetailsProps {
   character: {
     image: string;
     name: string;
     species: string;
     status: string;
-    episode: { id: string; name: string }[];
+    episode: Episode[];
   };
 }
 
@@ -31,7 +36,7 @@ const CharacterDetails: React.FC<CharacterDetailsProps> = ({ character }) => {
         <h3 className="text-lg mt-4">Episode Appearances:</h3>
         <div className="max-h-48 overflow-y-auto">
           <ul className="list-disc list-inside">
-            {character.episode.map((ep: any) => (
+            {character.episode.map((ep: Episode) => (
               <li key={ep.id}>{ep.name}</li>
             ))}
           </ul>

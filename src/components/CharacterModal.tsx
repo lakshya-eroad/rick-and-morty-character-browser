@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
 import { useQuery } from "@apollo/client";
+
 import { GET_CHARACTER } from "../graphql/queries";
 import CharacterDetails from "./CharacterDetails";
 
@@ -24,8 +26,6 @@ const CharacterModal: React.FC = () => {
 
   if (error) return <p>Error: {error.message}</p>;
 
-  const character = data.character;
-
   return (
     <div className="modal modal-open">
       <div className="modal-box bg-base-200 dark:bg-base-300 max-w-full max-h-full overflow-y-auto">
@@ -35,7 +35,7 @@ const CharacterModal: React.FC = () => {
         >
           ✕
         </button>
-        <CharacterDetails character={character} />
+        <CharacterDetails character={data.character} />
       </div>
     </div>
   );

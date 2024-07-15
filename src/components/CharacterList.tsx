@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+
 import { useQuery } from "@apollo/client";
+
 import { GET_CHARACTERS } from "../graphql/queries";
 import CharacterCard from "./CharacterCard";
-import SearchForm from "./SearchForm";
 import Pagination from "./Pagination";
+import SearchForm from "./SearchForm";
 
 interface Character {
   id: string;
