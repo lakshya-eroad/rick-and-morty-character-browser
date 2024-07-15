@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CHARACTER } from "../graphql/queries";
+import CharacterDetails from "./CharacterDetails";
 
 const CharacterModal: React.FC = () => {
   const { id } = useParams();
@@ -34,30 +35,7 @@ const CharacterModal: React.FC = () => {
         >
           ✕
         </button>
-        <figure className="w-full flex justify-center">
-          <img
-            src={character.image}
-            alt={character.name}
-            className="rounded-xl max-w-full h-auto"
-          />
-        </figure>
-        <div className="card-body p-4">
-          <h2 className="card-title text-center">{character.name}</h2>
-          <p>
-            <strong>Species:</strong> {character.species}
-          </p>
-          <p>
-            <strong>Status:</strong> {character.status}
-          </p>
-          <h3 className="text-lg mt-4">Episode Appearances:</h3>
-          <div className="max-h-48 overflow-y-auto">
-            <ul className="list-disc list-inside">
-              {character.episode.map((ep: any) => (
-                <li key={ep.id}>{ep.name}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <CharacterDetails character={character} />
       </div>
     </div>
   );
