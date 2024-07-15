@@ -11,7 +11,16 @@ const CharacterModal: React.FC = () => {
     variables: { id },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="modal modal-open">
+        <div className="modal-box bg-base-200 dark:bg-base-300 max-w-full max-h-full overflow-y-auto flex justify-center items-center">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      </div>
+    );
+  }
+
   if (error) return <p>Error: {error.message}</p>;
 
   const character = data.character;

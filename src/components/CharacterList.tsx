@@ -37,7 +37,14 @@ const CharacterList: React.FC = () => {
     setPage(1); // Reset to first page on clearing search
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
   if (error) return <p>Error: {error.message}</p>;
 
   return (
