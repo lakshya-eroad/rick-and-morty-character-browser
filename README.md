@@ -1,6 +1,6 @@
 # RICK-AND-MORTY-CHARACTER-BROWSING
 
-[https://rick-and-morty-character-browser-8cv4m29lw.vercel.app/?name=&page=1](View demo)
+[View Demo](https://rick-and-morty-character-browser-8cv4m29lw.vercel.app/?name=&page=1)
 
 A simple website using the [rick-and-morty API](https://rickandmortyapi.com/) that allows the user to browse through all the rick and morty characters and find out simple information about each character.
 
