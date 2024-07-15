@@ -1,6 +1,22 @@
 # RICK-AND-MORTY-CHARACTER-BROWSING
 
+[https://rick-and-morty-character-browser-8cv4m29lw.vercel.app/?name=&page=1](View demo)
+
 A simple website using the [rick-and-morty API](https://rickandmortyapi.com/) that allows the user to browse through all the rick and morty characters and find out simple information about each character.
+
+## How to run locally
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
+
+### `npm test -- --watchAll=false`
+
+Run's all the tests for the repo
 
 ## Tech stack:
 
@@ -27,29 +43,5 @@ A simple website using the [rick-and-morty API](https://rickandmortyapi.com/) th
 - Translations using i18n
 - Further WCAG improvements (introducing light mode etc...)
 - Results are show as I type them on search
-- I would also like to see some addition of some e2e tests
-
-## How to run
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm run test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- I would also like to see some addition of some e2e tests. Unit tests also need a bit more work using proper tools.
+- If more components added, /components folder will need more organisation
