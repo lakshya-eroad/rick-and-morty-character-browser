@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_CHARACTERS } from "../graphql/queries";
 import CharacterModal from "./CharacterModal";
@@ -14,18 +14,38 @@ interface Character {
 
 const CharacterList: React.FC = () => {
   const [page, setPage] = useState(1);
+  const [name, setName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(
     null
   );
-  const { loading, error, data } = useQuery(GET_CHARACTERS, {
-    variables: { page },
+  const { loading, error, data, refetch } = useQuery(GET_CHARACTERS, {
+    variables: { page, name: searchTerm },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [page, searchTerm, refetch]);
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchTerm(name);
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="container mx-auto p-4">
+      <form onSubmit={handleSearch} className="mb-4">
+        <input
+          type="text"
+          placeholder="Search for a character"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="input input-bordered w-full"
+        />
+      </form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.characters.results.map((character: Character) => (
           <div
