@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_CHARACTERS } from "../graphql/queries";
 
@@ -10,24 +10,30 @@ interface Character {
 }
 
 const CharacterList: React.FC = () => {
-  const [name, setName] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [name, setName] = useState(searchParams.get("name") || "");
+  const [page, setPage] = useState(
+    parseInt(searchParams.get("page") || "1", 10)
+  );
 
   const { loading, error, data } = useQuery(GET_CHARACTERS, {
-    variables: { name: searchTerm, page },
+    variables: { name, page },
   });
+
+  useEffect(() => {
+    setSearchParams({ name, page: page.toString() });
+  }, [name, page, setSearchParams]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSearchTerm(name);
-    setPage(1);
+    setPage(1); // Reset to first page on new search
+    setSearchParams({ name, page: "1" });
   };
 
   const handleClearSearch = () => {
     setName("");
-    setSearchTerm("");
-    setPage(1);
+    setPage(1); // Reset to first page on clearing search
+    setSearchParams({ name: "", page: "1" });
   };
 
   if (loading) return <p>Loading...</p>;
