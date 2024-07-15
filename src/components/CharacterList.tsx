@@ -12,13 +12,22 @@ interface Character {
 const CharacterList: React.FC = () => {
   const [name, setName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+
   const { loading, error, data } = useQuery(GET_CHARACTERS, {
-    variables: { name: searchTerm },
+    variables: { name: searchTerm, page },
   });
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSearchTerm(name);
+    setPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setName("");
+    setSearchTerm("");
+    setPage(1);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -40,10 +49,7 @@ const CharacterList: React.FC = () => {
         <button
           type="button"
           className="btn btn-secondary"
-          onClick={() => {
-            setName("");
-            setSearchTerm("");
-          }}
+          onClick={handleClearSearch}
         >
           Clear
         </button>
@@ -52,7 +58,7 @@ const CharacterList: React.FC = () => {
         {data.characters.results.map((character: Character) => (
           <Link
             key={character.id}
-            to={`/character/${character.id}`} // Navigate to character details route
+            to={`/character/${character.id}`}
             className="card bg-base-100 shadow-xl cursor-pointer"
           >
             <figure>
@@ -67,6 +73,26 @@ const CharacterList: React.FC = () => {
             </div>
           </Link>
         ))}
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          className={`btn ${
+            !data.characters.info.prev ? "btn-disabled" : "btn-primary"
+          }`}
+          onClick={() => setPage(page - 1)}
+          disabled={!data.characters.info.prev}
+        >
+          Previous
+        </button>
+        <button
+          className={`btn ${
+            !data.characters.info.next ? "btn-disabled" : "btn-primary"
+          }`}
+          onClick={() => setPage(page + 1)}
+          disabled={!data.characters.info.next}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
